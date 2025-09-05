@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Muhammad Haroon</title>
+    <meta name="description" content="Explore Muhammad Haroon's portfolio of web development projects including responsive websites, web applications, and interactive experiences.">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Projects - Muhammad Haroon">
+    <meta property="og:description" content="Explore Muhammad Haroon's portfolio of web development projects including responsive websites, web applications, and interactive experiences.">
+    <meta property="og:image" content="assets/img/og-image.png">
+    <meta property="og:url" content="https://muhammadharoon.com/projects.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Project Gallery Styles */
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        
+        .project-gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .project-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .project-gallery-item::after {
+            content: '+';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-gallery-item:hover::after {
+            opacity: 1;
+        }
+        
+        .view-gallery-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: rgba(106, 92, 255, 0.1);
+            color: var(--accent-1);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .view-gallery-btn:hover {
+            background: var(--accent-1);
+            color: white;
+        }
+        
+        /* Lightbox Styles */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 13, 18, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            width: auto;
+            height: auto;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10001;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+            z-index: 10001;
+        }
+        
+        .lightbox-prev,
+        .lightbox-next {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        .lightbox-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Project Detail View */
+        .project-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 9000;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .project-detail.active {
+            display: block;
+        }
+        
+        .project-detail-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .project-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .project-detail-close {
+            width: 40px;
+            height: 40px;
+            background: var(--card);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .project-detail-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .project-detail-gallery img {
+            width: 100%;
+            border-radius: var(--radius-md);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .project-detail-gallery img:hover {
+            transform: scale(1.02);
+        }
+        
+        .project-detail-info {
+            margin: 2rem 0;
+        }
+        
+        .project-detail-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            background: var(--card);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+        }
+        
+        /* Animation for gallery items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .project-gallery-item {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .project-gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .project-gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .project-gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .project-gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .project-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .lightbox-prev,
+            .lightbox-next {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .project-detail-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip link for accessibility -->
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 8L20 24L30 8" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
+                    <text x="40" y="20" font-family="Inter" font-size="20" font-weight="700" fill="white">PORTFOLIO</text>
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#6A5CFF"/>
+                            <stop offset="100%" stop-color="#00E7F6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </a>
+
+            <nav>
+                <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About Me</a></li>
+                    <li><a href="projects.html" class="nav-link active">Projects</a></li>
+                    <li><a href="blog.html" class="nav-link">Blog</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main">
+        <!-- Hero Section -->
+        <section class="hero projects-hero">
+            <div class="container">
+                <div class="projects-hero-content">
+                    <h1>My Projects</h1>
+                    <p>A collection of my recent work showcasing responsive design, interactivity, and user experience.</p>
+                    <div class="projects-counter">
+                        <span class="counter-number" data-count="15">15</span>
+                        <span class="counter-label">Projects Completed</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section projects">
+            <div class="container">
+                <div class="projects-header">
+                    <h2 class="section-title">Portfolio</h2>
+                    <p>Browse through my projects below. Use the filters to view specific categories. Click on any project to view details.</p>
+                </div>
+                <div class="project-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web">Web Design</button>
+                    <button class="filter-btn" data-filter="wordpress">WordPress</button>
+                    <button class="filter-btn" data-filter="frontend">Front-End</button>
+                    <button class="filter-btn" data-filter="responsive">Responsive</button>
+                </div>
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <div class="project-card" data-category="web responsive">
+                        <div class="project-image">
+                            <img src="assets/img/projects/proj1-1.jpg" alt="E-commerce website project" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Calypso Cart</h3>
+                            <p class="project-desc">An online gourmet marketplace delivering curated gourmet foods and condiments online </p>
+                            
+                            <!-- Project Gallery -->
+                            <div class="project-gallery">
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj1-1.jpg">
+                                    <img src="assets/img/projects/proj1-1.jpg" alt="E-commerce homepage" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj1-2.jpg">
+                                    <img src="assets/img/projects/proj1-2.jpg" alt="E-commerce product page" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj1-3.jpg">
+                                    <img src="assets/img/projects/proj1-3.jpg" alt="E-commerce cart" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj1-4.jpg">
+                                    <img src="assets/img/projects/proj1-4.jpg" alt="E-commerce checkout" loading="lazy">
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="view-gallery-btn">View Gallery</a>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">WordPress</span>
+                                <span class="project-tag">PHP</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">Responsive</span>
+                            </div>
+                            <!-- TODO: Paste live project URL for Project 1 here -->
+                            <a href="https://calypsocart.com/" class="project-link" target="_blank" rel="noopener">
+                                View Live Site <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card" data-category="wordpress">
+                        <div class="project-image">
+                            <img src="assets/img/projects/proj2-1.jpg" alt="WordPress blog theme" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">SHEIKH'S STORE</h3>
+                            <p class="project-desc">A luxury fahion destination featunig premium high-end fashion and accessories.</p>
+                            
+                            <!-- Project Gallery -->
+                            <div class="project-gallery">
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj2-1.jpg">
+                                    <img src="assets/img/projects/proj2-1.jpg" alt="Blog homepage" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj2-2.jpg">
+                                    <img src="assets/img/projects/proj2-2.jpg" alt="Blog post page" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj2-3.jpg">
+                                    <img src="assets/img/projects/proj2-3.jpg" alt="Blog archive" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj2-4.jpg">
+                                    <img src="assets/img/projects/proj2-4.jpg" alt="Blog mobile view" loading="lazy">
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="view-gallery-btn">View Gallery</a>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">HTML</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">Java Script</span>
+                            </div>
+                            <!-- TODO: Paste live project URL for Project 2 here -->
+                            <a href="https://muhammadabdullah730.github.io/SHEIKH-S-STORE/" class="project-link" target="_blank" rel="noopener">
+                                View Live Site <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card" data-category="frontend responsive">
+                        <div class="project-image">
+                            <img src="assets/img/projects/proj3-1.jpg" alt="Weather application" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">TravelWith Sheikh</h3>
+                            <p class="project-desc">A bespoke travel planning service offering personalized luxury travel planning</p>
+                            
+                            <!-- Project Gallery -->
+                            <div class="project-gallery">
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj3-1.jpg">
+                                    <img src="assets/img/projects/proj3-1.jpg" alt="Weather app main screen" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj3-2.jpg">
+                                    <img src="assets/img/projects/proj3-2.jpg" alt="Weather app forecast" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj3-3.jpg">
+                                    <img src="assets/img/projects/proj3-3.jpg" alt="Weather app settings" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj3-4.jpg">
+                                    <img src="assets/img/projects/proj3-4.jpg" alt="Weather app mobile view" loading="lazy">
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="view-gallery-btn">View Gallery</a>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">HTML</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">Java Script</span>
+                                <span class="project-tag">Responsive</span>
+                            </div>
+                            <!-- TODO: Paste live project URL for Project 3 here -->
+                            <a href="https://muhammadabdullah730.github.io/TravelWithSheikh/index.html" class="project-link" target="_blank" rel="noopener">
+                                View Live Site <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="project-card" data-category="web responsive">
+                        <div class="project-image">
+                            <img src="assets/img/projects/proj4-1.jpg" alt="Corporate website" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">SmileCare Dental Clinic</h3>
+                            <p class="project-desc">A modern corporate website which provide expert cosmetic dental services.</p>
+                            
+                            <!-- Project Gallery -->
+                            <div class="project-gallery">
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj4-1.jpg">
+                                    <img src="assets/img/projects/proj4-1.jpg" alt="Corporate homepage" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj4-2.jpg">
+                                    <img src="assets/img/projects/proj4-2.jpg" alt="Corporate services" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj4-3.jpg">
+                                    <img src="assets/img/projects/proj4-3.jpg" alt="Corporate about page" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj4-4.jpg">
+                                    <img src="assets/img/projects/proj4-4.jpg" alt="Corporate contact" loading="lazy">
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="view-gallery-btn">View Gallery</a>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">HTML</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">JavaScript</span>
+                                <span class="project-tag">GSAP</span>
+                            </div>
+                            <!-- TODO: Paste live project URL for Project 4 here -->
+                            <a href="https://muhammadabdullah730.github.io/dental-clinic-website/" class="project-link" target="_blank" rel="noopener">
+                                View Live Site <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 5 -->
+                    <div class="project-card" data-category="frontend">
+                        <div class="project-image">
+                            <img src="assets/img/projects/proj5-1.jpg" alt="Task management app" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Luxury Estates</h3>
+                            <p class="project-desc">A high-end real estate platform showcasing exclusive luxury properties for buyers and sellers of elite homes.</p>
+                            
+                            <!-- Project Gallery -->
+                            <div class="project-gallery">
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj5-1.jpg">
+                                    <img src="assets/img/projects/proj5-1.jpg" alt="Task manager dashboard" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj5-2.jpg">
+                                    <img src="assets/img/projects/proj5-2.jpg" alt="Task manager tasks" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj5-3.jpg">
+                                    <img src="assets/img/projects/proj5-3.jpg" alt="Task manager calendar" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj5-4.jpg">
+                                    <img src="assets/img/projects/proj5-4.jpg" alt="Task manager mobile" loading="lazy">
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="view-gallery-btn">View Gallery</a>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">JavaScript</span>
+                                <span class="project-tag">Local Storage</span>
+                                <span class="project-tag">CSS</span>
+                            </div>
+                            <!-- TODO: Paste live project URL for Project 5 here -->
+                            <a href="https://muhammadabdullah730.github.io/luxury-estates-website/index.html" class="project-link" target="_blank" rel="noopener">
+                                View Live Site <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 6 -->
+                    <div class="project-card" data-category="wordpress responsive">
+                        <div class="project-image">
+                            <img src="assets/img/projects/proj6-1.jpg" alt="Restaurant website" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">ShopBy</h3>
+                            <p class="project-desc">A fully responsive wordpress (localhost) e-commerce platform with product filtering and cart functionality.</p>
+                            
+                            <!-- Project Gallery -->
+                            <div class="project-gallery">
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj6-1.jpg">
+                                    <img src="assets/img/projects/proj6-1.jpg" alt="Restaurant homepage" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj6-2.jpg">
+                                    <img src="assets/img/projects/proj6-2.jpg" alt="Restaurant menu" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj6-3.jpg">
+                                    <img src="assets/img/projects/proj6-3.jpg" alt="Restaurant gallery" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj6-4.jpg">
+                                    <img src="assets/img/projects/proj6-4.jpg" alt="Restaurant reservation" loading="lazy">
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="view-gallery-btn">View Gallery</a>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">WordPress</span>
+                                <span class="project-tag">PHP</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">Responsive</span>
+                            </div>
+                            <!-- TODO: Paste live project URL for Project 6 here -->
+                            <a href="#" class="project-link" target="_blank" rel="noopener">
+                                View Live Site(Local Host) <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 7 -->
+                    <div class="project-card" data-category="frontend responsive">
+                        <div class="project-image">
+                            <img src="assets/img/projects/proj7-1.jpg" alt="Fitness app" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">E-Commerce website</h3>
+                            <p class="project-desc">A fully responsive e-commerce platform with proper product functionlity and management system.</p>
+                            
+                            <!-- Project Gallery -->
+                            <div class="project-gallery">
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj7-1.jpg">
+                                    <img src="assets/img/projects/proj7-1.jpg" alt="Fitness app dashboard" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj7-2.jpg">
+                                    <img src="assets/img/projects/proj7-2.jpg" alt="Fitness app workouts" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj7-3.jpg">
+                                    <img src="assets/img/projects/proj7-3.jpg" alt="Fitness app progress" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj7-4.jpg">
+                                    <img src="assets/img/projects/proj7-4.jpg" alt="Fitness app profile" loading="lazy">
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="view-gallery-btn">View Gallery</a>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">WordPress</span>
+                                <span class="project-tag">PHP</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">Responsive</span>
+                            </div>
+                            <!-- TODO: Paste live project URL for Project 7 here -->
+                            <a href="#" class="project-link" target="_blank" rel="noopener">
+                                View Live Site (Local Host)  <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 8 -->
+                    <div class="project-card" data-category="web">
+                        <div class="project-image">
+                            <img src="assets/img/projects/proj8-1.jpg" alt="Portfolio website" loading="lazy">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">FOODIE SHEIKH</h3>
+                            <p class="project-desc">A refined dining experience that blends traditional Middle Eastern culinary craftsmanship with modern inovation.</p>
+                            
+                            <!-- Project Gallery -->
+                            <div class="project-gallery">
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj8-1.jpg">
+                                    <img src="assets/img/projects/proj8-1.jpg" alt="Portfolio homepage" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj8-2.jpg">
+                                    <img src="assets/img/projects/proj8-2.jpg" alt="Portfolio projects" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj8-3.jpg">
+                                    <img src="assets/img/projects/proj8-3.jpg" alt="Portfolio about" loading="lazy">
+                                </div>
+                                <div class="project-gallery-item" data-src="assets/img/projects/proj8-4.jpg">
+                                    <img src="assets/img/projects/proj8-4.jpg" alt="Portfolio contact" loading="lazy">
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="view-gallery-btn">View Gallery</a>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">HTML</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">JavaScript</span>
+                                <span class="project-tag">GSAP</span>
+                            </div>
+                            <!-- TODO: Paste live project URL for Project 8 here -->
+                            <a href="https://muhammadabdullah730.github.io/Foodie-Sheikh07/#" class="project-link" target="_blank" rel="noopener">
+                                View Live Site <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox">
+            <div class="lightbox-close" id="lightboxClose">&times;</div>
+            <div class="lightbox-content">
+                <img src="" alt="" id="lightboxImage">
+            </div>
+            <div class="lightbox-nav">
+                <div class="lightbox-prev" id="lightboxPrev">&lt;</div>
+                <div class="lightbox-next" id="lightboxNext">&gt;</div>
+            </div>
+            <div class="lightbox-counter" id="lightboxCounter">1 / 4</div>
+        </div>
+
+        <!-- CTA Section -->
+        <section class="section cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2 class="cta-title">Have a Project in Mind?</h2>
+                    <p>Let's discuss how we can work together to bring your ideas to life.</p>
+                    <div class="cta-buttons">
+                        <a href="contact.html" class="btn btn-primary">Get In Touch</a>
+                        <a href="about.html" class="btn btn-secondary">Learn About Me</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 8L20 24L30 8" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
+                            <text x="40" y="20" font-family="Inter" font-size="18" font-weight="700" fill="white">PORTFOLIO</text>
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#6A5CFF"/>
+                                    <stop offset="100%" stop-color="#00E7F6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <p class="footer-desc">Creating beautiful, functional websites with a focus on user experience and performance.</p>
+                    <div class="social-links">
+                        <!-- TODO: Replace with your Facebook URL -->
+                        <a href="https://www.facebook.com/share/16hjrbJKTj/" class="social-link" id="facebookLink" rel="noopener" target="_blank" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        
+                        <!-- TODO: Replace with your Instagram URL -->
+                        <a href="https://www.instagram.com/muhammad_haroon_35/" class="social-link" id="instagramLink" rel="noopener" target="_blank" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        
+                        <!-- TODO: Replace with your LinkedIn URL -->
+                        <a href="https://www.linkedin.com/in/zain-zahid-982215337?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link" id="linkedinLink" rel="noopener" target="_blank" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                        
+                        <!-- TODO: Replace with your Fiverr URL -->
+                        <a href="https://www.fiverr.com/m_haroon_07" class="social-link" id="fiverrLink" rel="noopener" target="_blank" aria-label="Fiverr">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Me</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Get In Touch</h4>
+                    <ul class="contact-info">
+                        <li>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            +92 3006972357
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            muhammad.18.haroon@gmail.com
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            Pakistan, Punjab, Phool Nagar
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Muhammad Haroon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="assets/js/vendors/gsap.min.js"></script>
+    <script src="assets/js/vendors/ScrollTrigger.min.js"></script>
+    <script src="assets/js/vendors/lenis.min.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/app.js"></script>
+    
+    <script>
+    // Project Gallery Lightbox
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lightbox elements
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+        
+        // Gallery items
+        const galleryItems = document.querySelectorAll('.project-gallery-item');
+        let currentGallery = [];
+        let currentIndex = 0;
+        
+        // Open lightbox when gallery item is clicked
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Get all images in the current project gallery
+                const projectGallery = this.closest('.project-info').querySelectorAll('.project-gallery-item');
+                currentGallery = Array.from(projectGallery).map(img => img.getAttribute('data-src'));
+                
+                // Find the index of the clicked image
+                currentIndex = Array.from(projectGallery).indexOf(this);
+                
+                // Show the lightbox with the clicked image
+                showLightboxImage(currentIndex);
+                
+                // Show the lightbox
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+        
+        // View Gallery button
+        const viewGalleryBtns = document.querySelectorAll('.view-gallery-btn');
+        viewGalleryBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get all images in the current project gallery
+                const projectGallery = this.closest('.project-info').querySelectorAll('.project-gallery-item');
+                currentGallery = Array.from(projectGallery).map(img => img.getAttribute('data-src'));
+                currentIndex = 0;
+                
+                // Show the lightbox with the first image
+                showLightboxImage(currentIndex);
+                
+                // Show the lightbox
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+        
+        // Close lightbox
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    showPrevImage();
+                } else if (e.key === 'ArrowRight') {
+                    showNextImage();
+                }
+            }
+        });
+        
+        // Previous and next buttons
+        lightboxPrev.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showPrevImage();
+        });
+        
+        lightboxNext.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showNextImage();
+        });
+        
+        // Function to show image in lightbox
+        function showLightboxImage(index) {
+            lightboxImage.src = currentGallery[index];
+            lightboxImage.alt = 'Project image ' + (index + 1);
+            lightboxCounter.textContent = `${index + 1} / ${currentGallery.length}`;
+        }
+        
+        // Function to show previous image
+        function showPrevImage() {
+            currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+            showLightboxImage(currentIndex);
+        }
+        
+        // Function to show next image
+        function showNextImage() {
+            currentIndex = (currentIndex + 1) % currentGallery.length;
+            showLightboxImage(currentIndex);
+        }
+        
+        // Function to close lightbox
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = ''; // Enable scrolling
+        }
+        
+        // Swipe support for touch devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        lightbox.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+        
+        lightbox.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                // Swipe left - next image
+                showNextImage();
+            }
+            
+            if (touchEndX > touchStartX + 50) {
+                // Swipe right - previous image
+                showPrevImage();
+            }
+        }
+    });
+    </script>
+</body>
+</html>

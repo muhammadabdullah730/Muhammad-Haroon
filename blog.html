@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Muhammad Haroon</title>
+    <meta name="description" content="Read articles and tutorials by Muhammad Haroon on web development, design, and frontend technologies.">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Blog - Muhammad Haroon">
+    <meta property="og:description" content="Read articles and tutorials by Muhammad Haroon on web development, design, and frontend technologies.">
+    <meta property="og:image" content="assets/img/og-image.png">
+    <meta property="og:url" content="https://muhammadharoon.com/blog.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Skip link for accessibility -->
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 8L20 24L30 8" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
+                    <text x="40" y="20" font-family="Inter" font-size="20" font-weight="700" fill="white">PORTFOLIO</text>
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#6A5CFF"/>
+                            <stop offset="100%" stop-color="#00E7F6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </a>
+
+            <nav>
+                <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About Me</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main">
+        <!-- Hero Section -->
+        <section class="hero blog-hero">
+            <div class="container">
+                <div class="blog-hero-content">
+                    <h1>My Blog</h1>
+                    <p>Articles, tutorials, and thoughts on web development, design, and technology.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section class="section blog">
+            <div class="container">
+                <div class="blog-header">
+                    <h2 class="section-title">Latest Posts</h2>
+                    <p>Explore my latest articles on web development and design.</p>
+                </div>
+                <div class="blog-grid">
+                    <!-- Blog Post 1 -->
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="assets/img/blog/post1.jpg" alt="CSS Grid tutorial" loading="lazy">
+                        </div>
+                        <div class="blog-info">
+                            <p class="blog-date">June 15, 2023</p>
+                            <h3 class="blog-title">Mastering CSS Grid Layout</h3>
+                            <p class="blog-excerpt">Learn how to create complex responsive layouts with CSS Grid in this comprehensive tutorial.</p>
+                            <a href="#" class="blog-link">Read More <span>&rarr;</span></a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 2 -->
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="assets/img/blog/post2.jpg" alt="JavaScript performance tips" loading="lazy">
+                        </div>
+                        <div class="blog-info">
+                            <p class="blog-date">May 8, 2023</p>
+                            <h3 class="blog-title">JavaScript Performance Optimization</h3>
+                            <p class="blog-excerpt">Discover techniques to improve your JavaScript code performance and user experience.</p>
+                            <a href="#" class="blog-link">Read More <span>&rarr;</span></a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 3 -->
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="assets/img/blog/post3.jpg" alt="Web accessibility guide" loading="lazy">
+                        </div>
+                        <div class="blog-info">
+                            <p class="blog-date">April 22, 2023</p>
+                            <h3 class="blog-title">Web Accessibility Best Practices</h3>
+                            <p class="blog-excerpt">A practical guide to making your websites accessible to all users regardless of abilities.</p>
+                            <a href="#" class="blog-link">Read More <span>&rarr;</span></a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 4 -->
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="assets/img/blog/post4.jpg" alt="React hooks tutorial" loading="lazy">
+                        </div>
+                        <div class="blog-info">
+                            <p class="blog-date">March 10, 2023</p>
+                            <h3 class="blog-title">Understanding React Hooks</h3>
+                            <p class="blog-excerpt">A deep dive into React Hooks and how to use them effectively in your applications.</p>
+                            <a href="#" class="blog-link">Read More <span>&rarr;</span></a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 5 -->
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="assets/img/blog/post5.jpg" alt="CSS animations guide" loading="lazy">
+                        </div>
+                        <div class="blog-info">
+                            <p class="blog-date">February 18, 2023</p>
+                            <h3 class="blog-title">Creating Smooth CSS Animations</h3>
+                            <p class="blog-excerpt">Learn how to create performant and smooth animations using CSS transitions and keyframes.</p>
+                            <a href="#" class="blog-link">Read More <span>&rarr;</span></a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 6 -->
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <img src="assets/img/blog/post6.jpg" alt="Responsive design tips" loading="lazy">
+                        </div>
+                        <div class="blog-info">
+                            <p class="blog-date">January 5, 2023</p>
+                            <h3 class="blog-title">Advanced Responsive Design Techniques</h3>
+                            <p class="blog-excerpt">Explore advanced techniques for creating responsive designs that work across all devices.</p>
+                            <a href="#" class="blog-link">Read More <span>&rarr;</span></a>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="pagination-item active">1</a>
+                    <a href="#" class="pagination-item">2</a>
+                    <a href="#" class="pagination-item">3</a>
+                    <a href="#" class="pagination-item next">Next <span>&rarr;</span></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="section newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>Stay Updated</h2>
+                    <p>Subscribe to my newsletter to receive updates on new articles, tutorials, and web development tips.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 8L20 24L30 8" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
+                            <text x="40" y="20" font-family="Inter" font-size="18" font-weight="700" fill="white">PORTFOLIO</text>
+                            <defs>
+                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#6A5CFF"/>
+                                    <stop offset="100%" stop-color="#00E7F6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <p class="footer-desc">Creating beautiful, functional websites with a focus on user experience and performance.</p>
+                    <div class="social-links">
+                        <!-- TODO: Replace with your Facebook URL -->
+                        <a href="https://www.facebook.com/share/16hjrbJKTj/" class="social-link" id="facebookLink" rel="noopener" target="_blank" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        
+                        <!-- TODO: Replace with your Instagram URL -->
+                        <a href="https://www.instagram.com/muhammad_haroon_35/" class="social-link" id="instagramLink" rel="noopener" target="_blank" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        
+                        <!-- TODO: Replace with your LinkedIn URL -->
+                        <a href="https://www.linkedin.com/in/zain-zahid-982215337?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link" id="linkedinLink" rel="noopener" target="_blank" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                        
+                        <!-- TODO: Replace with your Fiverr URL -->
+                        <a href="https://www.fiverr.com/m_haroon_07" class="social-link" id="fiverrLink" rel="noopener" target="_blank" aria-label="Fiverr">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Me</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Get In Touch</h4>
+                    <ul class="contact-info">
+                        <li>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            +92 3006972357
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            muhammad.18.haroon@gmail.com
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            Pakistan, Punjab, Phool Nagar
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Muhammad Haroon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="assets/js/vendors/gsap.min.js"></script>
+    <script src="assets/js/vendors/ScrollTrigger.min.js"></script>
+    <script src="assets/js/vendors/lenis.min.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
